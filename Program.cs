@@ -9,7 +9,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddScoped<BookRepository>();
+
 
 builder.Services.AddControllersWithViews();
 

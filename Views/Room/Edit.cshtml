@@ -1,0 +1,48 @@
+﻿@model ORM1.Models.Room_BCS240051
+
+<h2>Sửa phòng</h2>
+
+<form asp-action="Edit">
+
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label>Tên phòng</label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Giá</label>
+        <input asp-for="Price" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Diện tích</label>
+        <input asp-for="Area" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Mô tả</label>
+        <input asp-for="Description" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Loại phòng</label>
+
+        <select asp-for="RoomTypeId"
+                asp-items="ViewBag.RoomTypes"
+                class="form-control">
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Còn phòng</label>
+        <input asp-for="IsAvailable" />
+    </div>
+
+    <button type="submit"
+            class="btn btn-primary">
+        Cập nhật
+    </button>
+
+</form>

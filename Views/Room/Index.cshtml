@@ -1,0 +1,210 @@
+﻿@model IEnumerable<ORM1.Models.Room_BCS240051>
+
+@{
+    ViewData["Title"] = "Danh sách phòng";
+}
+
+<h1>DANH SÁCH PHÒNG</h1>
+
+<form method="get">
+
+    <div class="row mb-3">
+
+        <div class="col-md-2">
+            <input class="form-control"
+                   type="text"
+                   name="searchString"
+                   placeholder="Tên phòng"
+                   value="@Context.Request.Query["searchString"]" />
+        </div>
+
+        <div class="col-md-2">
+            <select class="form-control"
+                    name="roomTypeId">
+
+                <option value="">Tất cả loại phòng</option>
+
+                @foreach (var item in ViewBag.RoomTypes)
+                {
+                    <option value="@item.Id">
+                        @item.Name
+                    </option>
+                }
+
+            </select>
+        </div>
+
+        <div class="col-md-2">
+
+            <select class="form-control"
+                    name="isAvailable">
+
+                <option value="">Trạng thái</option>
+
+                <option value="true">
+                    Còn phòng
+                </option>
+
+                <option value="false">
+                    Hết phòng
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="col-md-2">
+
+            <input class="form-control"
+                   type="number"
+                   name="maxPrice"
+                   placeholder="Giá tối đa" />
+
+        </div>
+
+        <div class="col-md-2">
+
+            <select class="form-control"
+                    name="sortOrder">
+
+                <option value="">
+                    Sắp xếp
+                </option>
+
+                <option value="price_asc">
+                    Giá tăng dần
+                </option>
+
+                <option value="price_desc">
+                    Giá giảm dần
+                </option>
+
+                <option value="area_desc">
+                    Diện tích giảm dần
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="col-md-2">
+
+            <button type="submit"
+                    class="btn btn-primary">
+                Tìm kiếm
+            </button>
+
+        </div>
+
+    </div>
+
+</form>
+
+<p>
+    <a asp-action="Create"
+       class="btn btn-success">
+        Thêm phòng
+    </a>
+</p>
+
+<table class="table table-bordered table-striped">
+
+    <thead>
+
+        <tr>
+
+            <th>ID</th>
+
+            <th>Tên phòng</th>
+
+            <th>Giá</th>
+
+            <th>Diện tích</th>
+
+            <th>Giá / m²</th>
+
+            <th>Loại phòng</th>
+
+            <th>Trạng thái</th>
+
+            <th>Thao tác</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @item.Id
+                </td>
+
+                <td>
+                    @item.Name
+                </td>
+
+                <td>
+                    @item.Price.ToString("N0")
+                </td>
+
+                <td>
+                    @item.Area
+                </td>
+
+                <td>
+                    @((item.Price / (decimal)item.Area).ToString("N0"))
+                </td>
+
+                <td>
+                    @item.RoomType?.Name
+                </td>
+
+                <td>
+
+                    @if (item.IsAvailable)
+                    {
+                        <span class="badge bg-success">
+                            Còn phòng
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">
+                            Hết phòng
+                        </span>
+                    }
+
+                </td>
+
+                <td>
+
+                    <a asp-action="Details"
+                       asp-route-id="@item.Id"
+                       class="btn btn-info btn-sm">
+                        Chi tiết
+                    </a>
+
+                    <a asp-action="Edit"
+                       asp-route-id="@item.Id"
+                       class="btn btn-warning btn-sm">
+                        Sửa
+                    </a>
+
+                    <a asp-action="Delete"
+                       asp-route-id="@item.Id"
+                       class="btn btn-danger btn-sm">
+                        Xóa
+                    </a>
+
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>

@@ -1,0 +1,120 @@
+﻿@model ORM1.Models.Room_BCS240051
+
+@{
+    ViewData["Title"] = "Chi tiết phòng";
+}
+
+<h2 class="mb-4">CHI TIẾT PHÒNG</h2>
+
+<table class="table table-bordered table-striped">
+
+    <tr>
+        <th width="250">ID</th>
+        <td>@Model.Id</td>
+    </tr>
+
+    <tr>
+        <th>Tên phòng</th>
+        <td>@Model.Name</td>
+    </tr>
+
+    <tr>
+        <th>Giá thuê</th>
+        <td>@Model.Price.ToString("N0") VNĐ</td>
+    </tr>
+
+    <tr>
+        <th>Diện tích</th>
+        <td>@Model.Area m²</td>
+    </tr>
+
+    <tr>
+        <th>Giá / m²</th>
+        <td>@Model.PricePerSquareMeter.ToString("N0") VNĐ</td>
+    </tr>
+
+    <tr>
+        <th>Loại phòng</th>
+        <td>@Model.RoomType?.Name</td>
+    </tr>
+
+    <tr>
+        <th>Trạng thái</th>
+        <td>
+            @if (Model.IsAvailable)
+            {
+                <span class="badge bg-success">
+                    Còn phòng
+                </span>
+            }
+            else
+            {
+                <span class="badge bg-danger">
+                    Hết phòng
+                </span>
+            }
+        </td>
+    </tr>
+
+    <tr>
+        <th>Mô tả</th>
+        <td>@Model.Description</td>
+    </tr>
+
+</table>
+
+<hr />
+
+<h3>Danh sách ảnh</h3>
+
+@if (Model.RoomImages != null && Model.RoomImages.Any())
+{
+    <div class="row">
+
+        @foreach (var img in Model.RoomImages.OrderByDescending(x => x.IsThumbnail))
+        {
+            <div class="col-md-4 mb-3">
+
+                <img src="~/images/@img.ImageUrl"
+                     class="img-fluid rounded border"
+                     alt="Ảnh phòng" />
+
+                @if (img.IsThumbnail)
+                {
+                    <div class="mt-2">
+                        <span class="badge bg-primary">
+                            Ảnh đại diện
+                        </span>
+                    </div>
+                }
+
+            </div>
+        }
+
+    </div>
+}
+else
+{
+    <div class="alert alert-warning">
+        Phòng chưa có ảnh.
+    </div>
+}
+
+<hr />
+
+<a asp-action="Index"
+   class="btn btn-secondary">
+    Quay lại
+</a>
+
+<a asp-action="Edit"
+   asp-route-id="@Model.Id"
+   class="btn btn-warning">
+    Sửa
+</a>
+
+<a asp-action="Delete"
+   asp-route-id="@Model.Id"
+   class="btn btn-danger">
+    Xóa
+</a>
